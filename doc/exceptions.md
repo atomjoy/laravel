@@ -98,7 +98,7 @@ class SampleController extends Controller
 		try {
 			// User::findOrFail(0);      
 			// User::where('id', 11)->update(['xxx' => 1]);
-			throw new Exception('Your Error Message.');
+			throw new Exception('Your Error Message.', 422);
 		} catch (Exception $e) {
 			CatchError::from($e);
 		}
