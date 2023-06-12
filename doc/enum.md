@@ -1,4 +1,4 @@
-# Enums w Laravel
+# Enum w Laravel
 Wyliczenia php w Laravel.
 
 ## Utwórz interfejs
