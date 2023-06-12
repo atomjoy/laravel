@@ -65,6 +65,11 @@ use Throwable;
 
 class CatchError
 {
+	/**
+	 * Render the exception into an HTTP json response.
+	 *
+	 * @param  \Exception|Throwable $e
+	 */
 	static function from(Exception|Throwable $e)
 	{
 		if ($e instanceof PDOException) {
