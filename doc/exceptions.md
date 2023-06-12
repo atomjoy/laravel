@@ -61,10 +61,11 @@ namespace App\Exceptions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use PDOException;
 use Exception;
+use Throwable;
 
 class CatchError
 {
-	static function from(Exception $e)
+	static function from(Exception|Throwable $e)
 	{
 		if ($e instanceof PDOException) {
 			throw new JsonException('Database Error.', 500);
