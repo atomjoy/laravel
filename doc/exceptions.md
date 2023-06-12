@@ -106,15 +106,16 @@ class SampleController extends Controller
 }
 ```
 
-## Exception handler
+## Exceptions Handler (przechwytywanie wszystkich wyjątków)
 
 ```php
 <?php
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Exception;
 use Throwable;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -138,8 +139,18 @@ class Handler extends ExceptionHandler
 			//
 		});
 
-		// Add here or in middleware
+		// Catch exceptions for class
+		$this->renderable(function (Exception $e, $request) {
+			if ($request->is('web/api/*') && $request->wantsJson()) {
+				return response()->json([
+					'message' => $e->getMessage(),
+				], 422);
+			}
+		});
+
+		// Catch all
 		$this->renderable(function (Throwable $e, $request) {
+			// Check json header
 			if ($request->is('web/api/*') && !$request->wantsJson()) {
 				return response()->json([
 					'message' => 'Not Acceptable.',
