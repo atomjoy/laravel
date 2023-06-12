@@ -1,4 +1,5 @@
-# Przechwytywanie wyjątków/błędów w Laravel
+# Wyjątki w Laravel
+Przechwytywanie wyjątków/błędów w Laravel (exceptions).
 
 ## Utwórz klasę wyjątku
 
