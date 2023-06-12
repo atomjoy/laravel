@@ -1,9 +1,9 @@
-# Przechwytywanie błędów w Laravel
+# Przechwytywanie wyjątków/błędów w Laravel
 
 ## Utwórz klasę wyjątku
 
 ```sh
-php artisan make:exceptions JsonException
+php artisan make:exception JsonException
 ```
 
 ## Edytuj klasę wyjątku
