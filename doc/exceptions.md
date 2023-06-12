@@ -6,7 +6,7 @@
 php artisan make:exception JsonException
 ```
 
-## Edytuj klasę wyjątku
+### Edytuj klasę wyjątku
 
 ```php
 <?php
@@ -50,7 +50,7 @@ class JsonException extends Exception
 }
 ```
 
-## Utwórz klasę do obsługi wyjątków
+### Utwórz klasę do obsługi wyjątków
 
 ```php
 <?php
@@ -80,7 +80,7 @@ class CatchError
 }
 ```
 
-## Utwórz kontroler
+### Utwórz kontroler
 
 ```php
 <?php
@@ -106,7 +106,9 @@ class SampleController extends Controller
 }
 ```
 
-## Exceptions Handler (przechwytywanie wszystkich wyjątków)
+## Przechwytywanie wszystkich wyjątków (opcja)
+
+W ***app/Exceptions/Handler.php*** można przechwytywać wyjątki z całej aplikacji Laravel z podziałem na klasy.
 
 ```php
 <?php
