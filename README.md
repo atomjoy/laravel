@@ -5,3 +5,5 @@ Laravel przykłady.
 - https://github.com/atomjoy/laravel/blob/main/doc/exceptions.md
 ## Wyliczenia php (enum).
 - https://github.com/atomjoy/laravel/blob/main/doc/enum.md
+## Parametry middleware
+- https://github.com/atomjoy/laravel/blob/main/doc/middleware-params.md
