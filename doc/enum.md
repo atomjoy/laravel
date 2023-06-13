@@ -69,17 +69,18 @@ enum UserRole: string implements HasRole
 
 namespace App\Models;
 
-use Database\Factories\UserFactory;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Database\Factories\UserFactory;
+use Laravel\Sanctum\HasApiTokens;
 use App\Enums\UserRole;
 
 class User extends Authenticatable implements HasLocalePreference
 {
-	use HasFactory, Notifiable, SoftDeletes;
+	use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
 	protected $fillable = [
 		'name',
