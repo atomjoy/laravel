@@ -33,3 +33,49 @@ public function handle($request, Closure $next, $role = '')
 
 	return $next($request);
 }
+```
+
+## Przykłady middleware
+
+### Zmiana języka z sesji
+
+```php
+public function handle($request, Closure $next)
+{
+	$lang =  session('locale', config('app.locale'));
+	app()->setLocale($lang);
+	
+	if ($request->has('locale')) {
+		app()->setLocale($request->query('locale'));
+	}
+	
+	return $next($request);
+}
+```
+
+### Dodaj nagłówek accept json
+
+```php
+public function handle($request, Closure $next)
+{
+	if ($request->is('web/api/*')) {
+		$request->headers->set('Accept', 'application/json');
+	}
+
+	return $next($request);
+}
+```
+
+### Sprawdzanie nagłówka
+
+```php
+public function handle(Request $request, Closure $next): Response
+{
+	// Require json header 'Accept: application/json'
+	if ($request->is('web/api/*') && !$request->wantsJson()) {
+		throw new JsonException('Not Acceptable.', 406);
+	}
+	
+	return $next($request);
+}
+```
