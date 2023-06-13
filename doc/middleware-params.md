@@ -26,13 +26,15 @@ Route::prefix('web/api')->name('web.api.')
 ```php
 public function handle(Request $request, Closure $next): Response
 {
-  // String 
-  $actions = $request->route()->getAction('middleware.role');
-  $roles = array_filter(explode('|', $actions));
-  
-  // Json
-  $roles = json_decode($request->route()->getAction('middleware.role'));
+	// String 
+	$actions = $request->route()->getAction('middleware.role');
+	$roles = array_filter(explode('|', $actions));
 
+	// Json
+	$roles = json_decode($request->route()->getAction('middleware.role'));
+	
+	// ...
+	
 	return $next($request);
 }
 ```
