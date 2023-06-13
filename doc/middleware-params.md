@@ -53,18 +53,18 @@ Route::prefix('web/api')->name('web.api.')
 ```php
 public function handle($request, Closure $next, $role = '')
 {
-  $roles = array_filter(explode('|', $role));
-  
-  if (!empty($roles)) {
-			if (Auth::check()) {
-				$user = Auth::user();
-				if (!in_array($user->role->value, $roles)) {
-					throw new AuthenticationException("Unauthorized Role.");
-				}
-			} else {
-				throw new AuthenticationException("Unauthorized User.");
-			}
-		}
+	$roles = array_filter(explode('|', $role));
 
-		return $next($request);
+	if (!empty($roles)) {
+		if (Auth::check()) {
+			$user = Auth::user();
+			if (!in_array($user->role->value, $roles)) {
+				throw new AuthenticationException("Unauthorized Role.");
+			}
+		} else {
+			throw new AuthenticationException("Unauthorized User.");
+		}
+	}
+
+	return $next($request);
 }
