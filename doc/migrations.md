@@ -1,6 +1,17 @@
 # Migracje tabel w Laravel
 Tworzenie i modyfikacja tabel w bazie danych.
 
+## Wczytywanie migracj z subfolderu
+W pliku app/Providers/AppServiceProvider.php
+
+```php
+public function boot(): void
+{	
+	$this->loadMigrationsFrom(database_path('migrations/posts'));
+	// ...
+}
+```
+
 ## Tworzenie migracji
 
 ```sh
