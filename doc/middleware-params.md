@@ -103,7 +103,11 @@ Dodaj w routes/web.php
 ```php
 <?php
 
+// Route middleware with alias
 Route::prefix('web/api')->name('web.api.')->middleware(['web', 'auth', 'auth-role:user|admin|worker'])->group(function () {
-	// Routes here
+	// Routes
 });
+
+// Route middleware with class
+Route::resource('password', PasswordController::class)->middleware(['auth', ForceJsonMiddleware::class, ChangeLocaleMiddleware::class]);	
 ```
