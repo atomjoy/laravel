@@ -79,3 +79,31 @@ public function handle(Request $request, Closure $next): Response
 	return $next($request);
 }
 ```
+
+## Dodaj middleware
+Dodaj w app/Http/Kernel.php
+
+```php
+<?php
+
+// In aliases
+protected $middlewareAliases = [
+ 'auth-role' => \App\Http\Middleware\AuthRoleMiddleware::class,
+];
+
+// Or in (opcja)
+protected $routeMiddleware = [
+ 'auth-role' => \App\Http\Middleware\AuthRoleMiddleware::class,
+];
+```
+
+### Użyj aliasu midlleware
+Dodaj w routes/web.php
+
+```php
+<?php
+
+Route::prefix('web/api')->name('web.api.')->middleware(['web', 'auth', 'auth-role:user|admin|worker'])->group(function () {
+	// Routes here
+});
+```
