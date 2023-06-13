@@ -80,7 +80,7 @@ public function handle(Request $request, Closure $next): Response
 }
 ```
 
-## Dodaj middleware
+## Instalacja middleware
 Dodaj w app/Http/Kernel.php
 
 ```php
