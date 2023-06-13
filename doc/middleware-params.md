@@ -1,4 +1,4 @@
-# Laravel parametry middleware
+# Parametry middleware w Laravel
 Przekazywanie parametrów do klasy middleware z routes group middleware.
 
 ## Przekazywanie parametrów dla klasy middleware
