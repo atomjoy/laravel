@@ -109,20 +109,29 @@ return new class extends Migration
 ```php
 // Add
 Schema::table('posts', function (Blueprint $table) {
-    $table->unsignedBigInteger('user_id')->nullable();
- 
-    $table->foreign('user_id')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-    // $table->foreignId('foreign_id')->nullable()->constrained("users")->cascadeOnUpdate()->nullOnDelete();
+	// Old style
+	$table->unsignedBigInteger('user_id')->nullable(); 
+	$table->foreign('user_id')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+
+	// One line
+	$table->foreignId('foreign_id')->nullable()->constrained("users")->cascadeOnUpdate()->nullOnDelete();
 });
 
 // Remove
 Schema::table('users', function (Blueprint $table) {
-  $table->dropForeign(['user_id']);
+	$table->dropForeign(['user_id']);
 });
+```
 
-// Checking 
+## Wyłączanie sprawdzania kluczy
+
+```php
+// Disable
 Schema::disableForeignKeyConstraints();
-// Do something ... delete record
+
+// Do something ... delete record etc.
+
+// Enable
 Schema::enableForeignKeyConstraints();
 ```
 
