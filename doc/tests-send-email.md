@@ -10,7 +10,7 @@ Zmień w phpunit.xml
 <php>
   <env name="APP_ENV" value="testing"/>
   <env name="MAIL_MAILER" value="smtp"/>
-  <!-- <env name="MAIL_MAILER" value="smtp"/> -->
+  <!-- <env name="MAIL_MAILER" value="array"/> -->
 </php>
 ```
 
