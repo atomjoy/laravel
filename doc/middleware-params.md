@@ -124,12 +124,12 @@ use Illuminate\Support\Facades\Redirect;
 // Secure route with password confirmation
 Route::get('/settings', function () {
     // ...
-})->middleware(['password.confirm']);
+})->middleware(['auth', 'password.confirm']);
 
 // Secure route with password confirmation
 Route::post('/settings', function () {
     // ...
-})->middleware(['password.confirm']);
+})->middleware(['auth', 'password.confirm']);
 
 // Confirm password form logged user only
 Route::get('/confirm-password', function () {
