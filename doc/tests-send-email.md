@@ -27,3 +27,9 @@ MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS="user@app.xx"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
+
+### Uruchom testy
+
+```sh
+php artisan test --stop-on-failure
+```
