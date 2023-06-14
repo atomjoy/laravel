@@ -112,7 +112,7 @@ Route::prefix('web/api')->name('web.api.')->middleware(['web', 'auth', 'auth-rol
 Route::resource('password', PasswordController::class)->middleware(['auth', ForceJsonMiddleware::class, ChangeLocaleMiddleware::class]);	
 ```
 
-### Limitowanie zapytań
+## Limitowanie zapytań
 
 ```php
 <?php
