@@ -1,5 +1,5 @@
 # Parametry middleware w Laravel
-Przekazywanie parametrów do middleware z routes.
+Przekazywanie parametrów do middleware z routes, limitowanie zapytań, potwierdzanie hasła.
 
 ## Przekazywanie parametru dla aliasu middleware
 
@@ -131,7 +131,7 @@ Route::post('/settings', function () {
     // ...
 })->middleware(['password.confirm']);
 
-// Confirm password form
+// Confirm password form logged user only
 Route::get('/confirm-password', function () {
     return view('auth.confirm-password');
 })->middleware('auth')->name('password.confirm');
