@@ -111,3 +111,41 @@ Route::prefix('web/api')->name('web.api.')->middleware(['web', 'auth', 'auth-rol
 // Route middleware with class
 Route::resource('password', PasswordController::class)->middleware(['auth', ForceJsonMiddleware::class, ChangeLocaleMiddleware::class]);	
 ```
+
+### Limitowanie zapytań
+
+```php
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+
+// Secure route with password confirmation
+Route::get('/settings', function () {
+    // ...
+})->middleware(['password.confirm']);
+
+// Secure route with password confirmation
+Route::post('/settings', function () {
+    // ...
+})->middleware(['password.confirm']);
+
+// Confirm password form
+Route::get('/confirm-password', function () {
+    return view('auth.confirm-password');
+})->middleware('auth')->name('password.confirm');
+
+// Limit requests
+Route::post('/confirm-password', function (Request $request) {
+    if (! Hash::check($request->password, $request->user()->password)) {
+        return back()->withErrors([
+            'password' => ['The provided password does not match our records.']
+        ]);
+    }
+ 
+    $request->session()->passwordConfirmed();
+ 
+    return redirect()->intended();
+})->middleware(['auth', 'throttle:6,1']);
+```
