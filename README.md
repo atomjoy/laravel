@@ -9,5 +9,7 @@ Laravel przykłady.
 - https://github.com/atomjoy/laravel/blob/main/doc/middleware-params.md
 ## Tworzenie i modyfikacja tabel w bazie danych.
 - https://github.com/atomjoy/laravel/blob/main/doc/migrations.md
+## Wysyłanie wiadomości email
+- https://github.com/atomjoy/laravel/blob/main/doc/mail-send.md
 ## Testowanie i wysyłanie wiadomości email lokalnie z testu
 - https://github.com/atomjoy/laravel/blob/main/doc/tests-send-email.md
