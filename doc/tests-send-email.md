@@ -1,4 +1,5 @@
-# Wysyłanie wiadomości email z testu w Laravel
+# Testy w Laravel
+Testowanie aplikacji i wysyłanie wiadomości email z testu w Laravel.
 
 ## Hmailserver
 Dodaj domeny i adresy email user@laravel.com, user@app.xx
