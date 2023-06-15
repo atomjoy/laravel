@@ -66,7 +66,7 @@ class RegisterMail extends Mailable
 }
 ```
 
-## Szablon view wiadomości
+## Szablon wiadomości blade
 ```php
 <!DOCTYPE html>
 <html lang="pl">
