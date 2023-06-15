@@ -1,4 +1,4 @@
-# Email w Laravel
+# Mail w Laravel
 Wysyłanie wiadomości email w Laravel.
 
 ### Wysyłanie wiadomości email z kontrolera
