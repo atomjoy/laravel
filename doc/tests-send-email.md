@@ -48,3 +48,17 @@ php artisan tinker
 
 Mail::raw('Hello World!', function($msg) {$msg->to('<user@laravel.com>')->subject('Test Email'); });
 ```
+
+## Dodaj test dla pakietu
+
+```xml
+<testsuite name="Webi">
+    <directory suffix="Test.php">./vendor/atomjoy/webi/tests</directory>
+</testsuite>
+```
+
+### Uruchom test dla pakietu
+
+```sh
+php artisan test --stop-on-failure --testsuite=Webi
+```
