@@ -61,7 +61,7 @@ class RegisterMail extends Mailable
 
 	public function build()
 	{
-    return $this->subject(trans(config('webi.email.subject.register')))->view('webi::emails.register');
+		return $this->subject(trans(config('webi.email.subject.register')))->view('webi::emails.register');
 	}
 }
 ```
