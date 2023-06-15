@@ -2,7 +2,7 @@
 Testowanie aplikacji i wysyłanie wiadomości email z testu w Laravel.
 
 ## Localny server smtp
-Dodaj domeny i adresy email user@laravel.com, user@app.xx do serwera poczty 
+Dodaj domeny i adresy email user@laravel.com, user@app.xx do serwera poczty.
 
 ### Wysyłaj email podczas testów
 Zmień w phpunit.xml
@@ -28,7 +28,8 @@ MAIL_FROM_ADDRESS="user@app.xx"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-## Testy pakietów
+## Dodaj pakiety do testów
+Zmień w phpunit.xml
 
 ```xml
 <testsuite name="Webi">
@@ -36,7 +37,8 @@ MAIL_FROM_NAME="${APP_NAME}"
 </testsuite>
 ```
 
-### Uruchom testów
+### Uruchom testy
+Z terminala w vscode
 
 ```sh
 php artisan test --stop-on-failure
