@@ -28,13 +28,20 @@ MAIL_FROM_ADDRESS="user@app.xx"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-### Uruchom testy
+## Kontroler
 
-```sh
-php artisan test --stop-on-failure
+```php
+try {
+  // or only email address 'User <user@laravel.com>'
+  $user = User::find(1);
+  Mail::to($user)->locale(app()->getLocale())->send(new RegisterMail($user));
+} catch (Exception $e) {
+  report($e);
+  throw new JsonException('The activation email could not be sent, please try to reset your password.');
+}
 ```
 
-# Wysyłanie wiadomości email z terminala
+## Wysyłanie wiadomości email z terminala
 
 ```php
 php artisan tinker
