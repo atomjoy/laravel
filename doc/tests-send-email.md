@@ -33,3 +33,11 @@ MAIL_FROM_NAME="${APP_NAME}"
 ```sh
 php artisan test --stop-on-failure
 ```
+
+# Wysyłanie wiadomości email z terminala
+
+```php
+php artisan tinker
+
+Mail::raw('Hello World!', function($msg) {$msg->to('<user@laravel.com>')->subject('Test Email'); });
+```
