@@ -13,3 +13,5 @@ Laravel przykłady.
 - https://github.com/atomjoy/laravel/blob/main/doc/mail-send.md
 ## Testowanie i wysyłanie wiadomości email lokalnie z testu
 - https://github.com/atomjoy/laravel/blob/main/doc/tests-send-email.md
+## Zdarzenia (events) tworzenie i przechwytywanie
+- https://github.com/atomjoy/laravel/blob/main/doc/events.md
