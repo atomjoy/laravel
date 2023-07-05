@@ -24,3 +24,6 @@ public function boot(): void
   });
 }
 ```
+
+## Dla klas przykłady
+<https://laravel.com/docs/10.x/events#generating-events-and-listeners>
