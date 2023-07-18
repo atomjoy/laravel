@@ -162,3 +162,9 @@ class RegisterTest extends TestCase
 	}
 }
 ```
+
+## Links
+- https://laravel.com/docs/10.x/mail#testing-mailables
+- https://laravel.com/docs/10.x/mail#events
+- https://github.com/symfony/mime/blob/6.3/Email.php
+- https://github.com/symfony/mime/blob/6.3/Address.php
