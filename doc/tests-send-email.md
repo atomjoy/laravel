@@ -95,8 +95,17 @@ class RegisterTest extends TestCase
 		Mail::assertSent(RegisterMail::class, function ($mail) use ($email, $name) {
 			$mail->build();
 			$html = $mail->render();
+
+			// Name
 			$this->assertTrue(strpos($html, $name) !== false);
+
+			// Subject
 			$this->assertEquals("👋 Account activation.", $mail->subject, 'The subject was not the right one.');
+
+			// Activation link
+			$this->assertMatchesRegularExpression('/\/activate\/[0-9]+\/[a-z0-9]+\?locale=[a-z]{2}"/i', $html);
+
+			// Recipient
 			return $mail->hasTo($email);
 		});
 	}
