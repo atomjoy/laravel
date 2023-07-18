@@ -145,6 +145,7 @@ class RegisterTest extends TestCase
 		});
 	}
 
+	// Cut string from html 
 	function getPassword($html)
 	{
 		preg_match('/word>[a-zA-Z0-9#]+<\/pass/', $html, $matches, PREG_OFFSET_CAPTURE);
