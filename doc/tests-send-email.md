@@ -53,25 +53,30 @@ Bez wysyłania wiadomości email.
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use App\Mail\RegisterMail;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Mail\Events\MessageSent;
+use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-class SendEmailTest extends TestCase
+class RegisterTest extends TestCase
 {
+	use RefreshDatabase;
+
 	/**
-	 * A basic test example.
+	 * Register user test with mail class.
 	 */
-	public function test_register_user(): void
+	public function test_create_user(): void
 	{
 		Mail::fake();
 
+		$name = 'Alex';
 		$email = uniqid() . '@laravel.com';
 
 		$response = $this->postJson('web/api/register', [
-			'name' => 'Alex',
+			'name' => $name,
 			'email' => $email,
 			'password' => 'Password123!',
 			'password_confirmation' => 'Password123!',
@@ -82,15 +87,53 @@ class SendEmailTest extends TestCase
 			'created' => true,
 		]);
 
-		Mail::assertSent(RegisterMail::class, function ($mail) use ($email) {
+		$this->assertDatabaseHas('users', [
+			'name' => $name,
+			'email' => $email,
+		]);
+
+		Mail::assertSent(RegisterMail::class, function ($mail) use ($email, $name) {
 			$mail->build();
+			$body = $mail->render();
+			$this->assertTrue(strpos($body, $name) !== false);
 			$this->assertEquals("👋 Account activation.", $mail->subject, 'The subject was not the right one.');
 			return $mail->hasTo($email);
 		});
+	}
 
-		// $response->assertStatus(422)->assertJson([
-		// 	'message' => 'The email has already been taken.'
-		// ]);
+	/**
+	 * Register user test with event class.
+	 */
+	public function test_create_user_event(): void
+	{
+		Event::fake([MessageSent::class]);
+
+		$name = 'Alex';
+		$email = uniqid() . '@laravel.com';
+
+		$response = $this->postJson('web/api/register', [
+			'name' => $name,
+			'email' => $email,
+			'password' => 'Password123!',
+			'password_confirmation' => 'Password123!',
+		]);
+
+		$response->assertStatus(201)->assertJsonMissing(['created' => false])->assertJson([
+			'message' => 'Account has been created, please confirm your email address.',
+			'created' => true,
+		]);
+
+		$this->assertDatabaseHas('users', [
+			'name' => $name,
+			'email' => $email,
+		]);
+
+		Event::assertDispatched(MessageSent::class, function ($e) use ($name) {
+			$html = $e->message->getHtmlBody();
+			$this->assertStringContainsString($name, $html);
+			$this->assertMatchesRegularExpression('/\/activate\/[0-9]+\/[a-z0-9]+\?locale=[a-z]{2}"/i', $html);
+			return true;
+		});
 	}
 }
 ```
