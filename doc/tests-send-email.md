@@ -44,3 +44,52 @@ Z terminala w vscode
 php artisan test --stop-on-failure
 php artisan test --stop-on-failure --testsuite=Webi
 ```
+
+## Mailable sprawdzenie tytułu i odbiorcy wiadomości email
+Bez wysyłania wiadomości email.
+
+```php
+<?php
+
+namespace Tests\Feature;
+
+// use Illuminate\Foundation\Testing\RefreshDatabase;
+
+use App\Mail\RegisterMail;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
+
+class SendEmailTest extends TestCase
+{
+	/**
+	 * A basic test example.
+	 */
+	public function test_apilogin(): void
+	{
+		Mail::fake();
+
+		$email = uniqid() . '@laravel.com';
+
+		$response = $this->postJson('web/api/register', [
+			'name' => 'Alex',
+			'email' => $email,
+			'password' => 'Password123!',
+			'password_confirmation' => 'Password123!',
+		]);
+
+		$response->assertStatus(201)->assertJsonMissing(['created'])->assertJson([
+			'message' => 'Account has been created, please confirm your email address.'
+		]);
+
+		Mail::assertSent(RegisterMail::class, function ($mail) use ($email) {
+			$mail->build();
+			$this->assertEquals("👋 Account activation.", $mail->subject, 'The subject was not the right one.');
+			return $mail->hasTo($email);
+		});
+
+		// $response->assertStatus(422)->assertJsonMissing(['created'])->assertJson([
+		// 	'message' => 'The email has already been taken.'
+		// ]);
+	}
+}
+```
