@@ -78,7 +78,8 @@ class SendEmailTest extends TestCase
 		]);
 
 		$response->assertStatus(201)->assertJsonMissing(['created' => false])->assertJson([
-			'message' => 'Account has been created, please confirm your email address.'
+			'message' => 'Account has been created, please confirm your email address.',
+			'created' => true,
 		]);
 
 		Mail::assertSent(RegisterMail::class, function ($mail) use ($email) {
