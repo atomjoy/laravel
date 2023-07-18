@@ -77,7 +77,7 @@ class SendEmailTest extends TestCase
 			'password_confirmation' => 'Password123!',
 		]);
 
-		$response->assertStatus(201)->assertJsonMissing(['created'])->assertJson([
+		$response->assertStatus(201)->assertJsonMissing(['created' => false])->assertJson([
 			'message' => 'Account has been created, please confirm your email address.'
 		]);
 
