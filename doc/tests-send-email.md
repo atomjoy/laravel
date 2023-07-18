@@ -64,7 +64,7 @@ class SendEmailTest extends TestCase
 	/**
 	 * A basic test example.
 	 */
-	public function test_apilogin(): void
+	public function test_register_user(): void
 	{
 		Mail::fake();
 
