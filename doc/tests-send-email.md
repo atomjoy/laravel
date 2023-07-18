@@ -1,4 +1,4 @@
-# Testy w Laravel
+# Testowanie wysyłania wiadomości email w Laravel.
 Testowanie aplikacji i wysyłanie wiadomości email z testu w Laravel.
 
 ## Localny server smtp
