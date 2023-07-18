@@ -46,7 +46,7 @@ php artisan test --stop-on-failure --testsuite=Webi
 ```
 
 ## Mailable sprawdzenie tytułu i odbiorcy wiadomości email
-Bez wysyłania wiadomości email.
+Bez wysyłania wiadomości email na dwa różne sposoby z klasą event i mail.
 
 ```php
 <?php
@@ -128,7 +128,7 @@ class RegisterTest extends TestCase
 			'email' => $email,
 		]);
 
-		Event::assertDispatched(MessageSent::class, function ($e) use ($name) {
+		Event::assertDispatched(MessageSent::class, function ($e) use ($email, $name) {
 			$html = $e->message->getHtmlBody();
 
 			// Name
@@ -137,10 +137,11 @@ class RegisterTest extends TestCase
 			// Activation link
 			$this->assertMatchesRegularExpression('/\/activate\/[0-9]+\/[a-z0-9]+\?locale=[a-z]{2}"/i', $html);
 
-			// Password string test
+			// Check password tag
 			// $this->assertMatchesRegularExpression('/word>[a-zA-Z0-9#]+<\/pass/', $html);
 
-			return true;
+			// Recipient
+			return collect($e->message->getTo())->first()->getAddress() == $email;
 		});
 	}
 
