@@ -88,7 +88,7 @@ class SendEmailTest extends TestCase
 			return $mail->hasTo($email);
 		});
 
-		// $response->assertStatus(422)->assertJsonMissing(['created'])->assertJson([
+		// $response->assertStatus(422)->assertJson([
 		// 	'message' => 'The email has already been taken.'
 		// ]);
 	}
