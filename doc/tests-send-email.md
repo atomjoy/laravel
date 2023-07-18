@@ -130,10 +130,24 @@ class RegisterTest extends TestCase
 
 		Event::assertDispatched(MessageSent::class, function ($e) use ($name) {
 			$html = $e->message->getHtmlBody();
+
+			// Name
 			$this->assertStringContainsString($name, $html);
+
+			// Activation link
 			$this->assertMatchesRegularExpression('/\/activate\/[0-9]+\/[a-z0-9]+\?locale=[a-z]{2}"/i', $html);
+
+			// Password string test
+			// $this->assertMatchesRegularExpression('/word>[a-zA-Z0-9#]+<\/pass/', $html);
+
 			return true;
 		});
+	}
+
+	function getPassword($html)
+	{
+		preg_match('/word>[a-zA-Z0-9#]+<\/pass/', $html, $matches, PREG_OFFSET_CAPTURE);
+		return str_replace(['word>', '</pass'], '', end($matches)[0]);
 	}
 }
 ```
