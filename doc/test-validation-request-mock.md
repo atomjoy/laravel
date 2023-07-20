@@ -60,8 +60,8 @@ class RegisterValidationTest extends TestCase
 		}
 
 		// Then catch event
-		Event::assertDispatched(RegisterUserError::class, function ($e) {
-			return true;
+		Event::assertDispatched(RegisterUserError::class, function ($e) use ($valid) {
+			return $valid == $e->valid;
 		});
 
 		// Call anonymous controller method
