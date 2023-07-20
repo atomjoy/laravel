@@ -40,6 +40,21 @@ class RegisterValidationTest extends TestCase
 			// 'password' => 'Password123#',
 		];
 
+		/*
+		// Test error
+		putenv('TEST_DATABASE=true');
+		$response = $this->postJson('web/api/register', [
+			'name' => $user->name,
+			'email' => $user->email,
+			'password' => 'Password123#',
+			'password_confirmation' => 'Password123#',
+		]);
+		$response->assertStatus(422)->assertJson([
+			'message' => 'The account has not been created.',
+		]);
+		putenv('TEST_DATABASE=false');
+		*/
+
 		// Mock validation request methods
 		$request = $this->instance(
 			RegisterRequest::class,
@@ -213,6 +228,10 @@ class RegisterRequest extends FormRequest
 	public function testDatabase()
 	{
 		// Mock request method and throw error in controller if needed from tests
+		// Or use putenv('TEST_DATABASE=true') in your tests to throw an error
+		if (env('TEST_DATABASE', false) == true) {
+			throw new Exception('TEST_DATABASE_REGISTER', 422);
+		}
 	}
 }
 ```
