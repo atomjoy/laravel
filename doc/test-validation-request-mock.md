@@ -1,5 +1,5 @@
 # Mocking validation request
-Testowanie eventu i błędu przy tworzeniu usera przez mockowanie klasy walidacji danych.
+Testowanie zdarzenia i błędu podczas tworzenia użytkownika poprzez nadpisanie klasy walidacji danych.
 
 ## Klasa testu
 ```php
