@@ -11,7 +11,6 @@ use Mockery;
 use Mockery\MockInterface;
 use App\Models\User;
 use App\Events\RegisterUserError;
-use App\Exceptions\JsonException;
 use App\Http\Controllers\RegisterController;
 use App\Http\Requests\RegisterRequest;
 use Exception;
@@ -31,17 +30,18 @@ class RegisterValidationTest extends TestCase
 
 		$user = User::factory()->make();
 
-		// Invalid User::create() validation data without password
+		// Invalid User::create() validation data without password and password_confirmation
 		// will throw error event and exception from controller index method
 		$valid = [
-			'name' => 'Alex',
-			'email' => 'user@laravel.com',
-			// Tests mocking error
+			'name' => $user->name,
+			'email' => $user->email,
 			// 'password' => 'Password123#',
+			// 'password_confirmation' => 'Password123#',
 		];
 
-		/*
-		// Test error
+		$request = null;
+
+		// Test throw error from controller
 		putenv('TEST_DATABASE=true');
 		$response = $this->postJson('web/api/register', [
 			'name' => $user->name,
@@ -53,34 +53,49 @@ class RegisterValidationTest extends TestCase
 			'message' => 'The account has not been created.',
 		]);
 		putenv('TEST_DATABASE=false');
-		*/
-
-		// Mock validation request methods
-		$request = $this->instance(
-			RegisterRequest::class,
-			Mockery::mock(RegisterRequest::class, static function (MockInterface $mock) use ($valid) {
-				// Overwrite all methods used in controller from  RegisterRequest class
-				$mock->shouldReceive('validated')->andReturn($valid);
-				// Tests mocking no error
-				// $mock->shouldReceive('testDatabase')->andReturn(true);
-				// Tests mocking error
-				// $mock->shouldReceive('testDatabase')->andThrow(new Exception());
-				
-			})
-		);
-
-		// Mock partial
-		$request = $this->partialMock(RegisterRequest::class, function (MockInterface $mock) use ($valid) {
-			// Overwrite only updated methods
-			$mock->shouldReceive('validated')->andReturn($valid);
-			// Tests mocking error
-			// $mock->shouldReceive('testDatabase')->andThrow(new Exception());
-		});
-
-		// Build controller
-		$controller = $this->controller();
 
 		try {
+			// Mock validation request
+			$request = $this->instance(
+				RegisterRequest::class,
+				Mockery::mock(RegisterRequest::class, static function (MockInterface $mock) use ($valid) {
+					// Add all methods used in controller from RegisterRequest
+					$mock->shouldReceive('validated')->andReturn($valid);
+					$mock->shouldReceive('testDatabase')->andReturn(null);
+					// Throw exception from controller
+					// $mock->shouldReceive('testDatabase')->andThrow(new Exception());
+				})
+			);
+
+			// Build controller
+			$controller = $this->controller();
+
+			// Call custom controller method
+			$response = $this->app->call([$controller, 'index'], [
+				'request' => $request,
+			]);
+		} catch (Exception $e) {
+			// Catch exception
+			$this->assertEquals($e->getMessage(), 'The account has not been created.');
+		}
+
+		// Then catch event
+		Event::assertDispatched(RegisterUserError::class, function ($e) use ($valid) {
+			return $valid == $e->valid;
+		});
+
+		try {
+			// Mock partial
+			$request = $this->partialMock(RegisterRequest::class, static function (MockInterface $mock) use ($valid) {
+				// Add only updated methods
+				$mock->shouldReceive('validated')->andReturn($valid);
+				// Throw exception from controller
+				// $mock->shouldReceive('testDatabase')->andThrow(new Exception());
+			});
+
+			// Build controller
+			$controller = $this->controller();
+
 			// Call custom controller method
 			$response = $this->app->call([$controller, 'index'], [
 				'request' => $request,
@@ -99,7 +114,6 @@ class RegisterValidationTest extends TestCase
 		$response = $this->app->call($controller, [
 			'request' => $request,
 		]);
-
 		$this->assertSame($valid, $request->validated());
 		$this->assertSame($valid, $response);
 	}
@@ -140,13 +154,13 @@ class RegisterController extends Controller
 
 		try {
 			// Tests mocking error
-			// $request->testDatabase();
+			$request->testDatabase();
 
 			// Create user
 			$user = User::create([
 				'name' => $valid['name'],
 				'email' => $valid['email'],
-				'password' => Hash::make($valid['password']),
+				'password' => Hash::make($valid['password']), // Error here if password does not exists in array
 				'username' => uniqid('user.'),
 				'ip' => request()->ip(),
 				'code' => uniqid()
