@@ -13,7 +13,7 @@ Laravel przykłady.
 - https://github.com/atomjoy/laravel/blob/main/doc/mail-send.md
 ### Testowanie i wysyłanie wiadomości email lokalnie z testu
 - https://github.com/atomjoy/laravel/blob/main/doc/tests-send-email.md
-### Testowanie zdarzenia i błędu podczas tworzenia użytkownika poprzez nadpisanie klasy walidacji danych
+### Testowanie zdarzenia i błędu podczas tworzenia użytkownika poprzez nadpisanie klasy walidacji danych (mockery)
 - https://github.com/atomjoy/laravel/blob/main/doc/test-validation-request-mock.md
 ### Zdarzenia (events) tworzenie i przechwytywanie
 - https://github.com/atomjoy/laravel/blob/main/doc/events.md
