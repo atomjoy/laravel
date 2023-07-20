@@ -44,7 +44,7 @@ class RegisterValidationTest extends TestCase
 		$request = $this->instance(
 			RegisterRequest::class,
 			Mockery::mock(RegisterRequest::class, static function (MockInterface $mock) use ($valid) {
-				// Overwrite all functions used in controller from  RegisterRequest class
+				// Overwrite all methods used in controller from  RegisterRequest class
 				$mock->shouldReceive('validated')->andReturn($valid);
 				// Tests mocking no error
 				// $mock->shouldReceive('testDatabase')->andReturn(true);
@@ -56,7 +56,7 @@ class RegisterValidationTest extends TestCase
 
 		// Mock partial
 		$request = $this->partialMock(RegisterRequest::class, function (MockInterface $mock) use ($valid) {
-			// Overwrite only updated functions
+			// Overwrite only updated methods
 			$mock->shouldReceive('validated')->andReturn($valid);
 			// Tests mocking error
 			// $mock->shouldReceive('testDatabase')->andThrow(new Exception());
