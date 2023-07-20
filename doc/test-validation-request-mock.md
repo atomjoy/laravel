@@ -36,13 +36,20 @@ class RegisterValidationTest extends TestCase
 		$valid = [
 			'name' => 'Alex',
 			'email' => 'user@laravel.com',
+			// Tests mocking error
+			// 'password' => 'Password123#',
 		];
 
 		// Mock validation request method validated
 		$request = $this->instance(
 			RegisterRequest::class,
 			Mockery::mock(RegisterRequest::class, static function (MockInterface $mock) use ($valid) {
+				// Add all functions used in controller from  RegisterRequest class
 				$mock->shouldReceive('validated')->andReturn($valid);
+				// Tests mocking error
+				// $mock->shouldReceive('testDatabase')->andThrow(new Exception());
+				// Tests mocking no error
+				// $mock->shouldReceive('testDatabase')->andReturn(true);
 			})
 		);
 
@@ -108,6 +115,10 @@ class RegisterController extends Controller
 		$valid = $request->validated();
 
 		try {
+			// Tests mocking error
+			// $request->testDatabase();
+
+			// Create user
 			$user = User::create([
 				'name' => $valid['name'],
 				'email' => $valid['email'],
@@ -128,6 +139,71 @@ class RegisterController extends Controller
 			'message' => 'Account has been created, please confirm your email address.',
 			'created' => true
 		], 201);
+	}
+}
+```
+
+## Klasa validatora
+```php
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
+
+class RegisterRequest extends FormRequest
+{
+	protected $stopOnFirstFailure = true;
+
+	public function authorize()
+	{
+		return true; // Allow all
+	}
+
+	public function rules()
+	{
+		$email = 'email:rfc,dns';
+		if (env('APP_DEBUG') == true) {
+			$email = 'email';
+		}
+
+		return [
+			'name' => 'required|min:3|max:50',
+			'email' => [
+				'required', $email, 'max:191',
+				Rule::unique('users')->whereNull('deleted_at')
+			],
+			'password' => [
+				'required',
+				Password::min(11)->letters()->mixedCase()->numbers()->symbols(),
+				'confirmed',
+				'max:50',
+			],
+			'password_confirmation' => 'required'
+		];
+	}
+
+	public function failedValidation(Validator $validator)
+	{
+		throw new ValidationException($validator, response()->json([
+			'message' => $validator->errors()->first()
+		], 422));
+	}
+
+	function prepareForValidation()
+	{
+		$this->merge(
+			collect(request()->json()->all())->only(['name', 'email', 'password', 'password_confirmation'])->toArray()
+		);
+	}
+
+	public function testDatabase()
+	{
+		// Mock request method and throw error in controller if needed from tests
 	}
 }
 ```
