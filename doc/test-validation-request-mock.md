@@ -40,18 +40,27 @@ class RegisterValidationTest extends TestCase
 			// 'password' => 'Password123#',
 		];
 
-		// Mock validation request method validated
+		// Mock validation request methods
 		$request = $this->instance(
 			RegisterRequest::class,
 			Mockery::mock(RegisterRequest::class, static function (MockInterface $mock) use ($valid) {
-				// Add all functions used in controller from  RegisterRequest class
+				// Overwrite all functions used in controller from  RegisterRequest class
 				$mock->shouldReceive('validated')->andReturn($valid);
-				// Tests mocking error
-				// $mock->shouldReceive('testDatabase')->andThrow(new Exception());
 				// Tests mocking no error
 				// $mock->shouldReceive('testDatabase')->andReturn(true);
+				// Tests mocking error
+				// $mock->shouldReceive('testDatabase')->andThrow(new Exception());
+				
 			})
 		);
+
+		// Mock partial
+		$request = $this->partialMock(RegisterRequest::class, function (MockInterface $mock) use ($valid) {
+			// Overwrite only updated functions
+			$mock->shouldReceive('validated')->andReturn($valid);
+			// Tests mocking error
+			// $mock->shouldReceive('testDatabase')->andThrow(new Exception());
+		});
 
 		// Build controller
 		$controller = $this->controller();
