@@ -17,3 +17,5 @@ Laravel przykłady.
 - https://github.com/atomjoy/laravel/blob/main/doc/test-validation-request-mock.md
 ### Zdarzenia (events) tworzenie i przechwytywanie
 - https://github.com/atomjoy/laravel/blob/main/doc/events.md
+### Wysyłanie zdjęć (upload avatar)
+- https://github.com/atomjoy/laravel/blob/main/doc/storage-upload.md
