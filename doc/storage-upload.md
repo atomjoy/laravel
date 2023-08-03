@@ -1,4 +1,5 @@
-# Wysyłanie plików (avatar upload) w Laravel
+# Wysyłanie zdjęć w Laravel
+Jak wysłać zdjęcie użytkownika (avatar) na serwer z walidacją w Laravel.
 
 ## Routes
 
