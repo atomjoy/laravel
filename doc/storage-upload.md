@@ -1,6 +1,17 @@
 # Wysyłanie plików (avatar upload) w Laravel
 
-## kontroler
+## Routes
+
+```php
+Route::prefix('web/api')->name('web.api.')->middleware(['web'])->group(function () {
+	// Private routes
+	Route::middleware(['auth'])->group(function () {
+		Route::post('/upload/avatar', [UploadAvatarController::class, 'index'])->name('upload.avatar');
+	});
+});
+```
+
+## Kontroler
 
 ```php
 <?php
