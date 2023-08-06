@@ -19,3 +19,5 @@ Laravel przykłady.
 - https://github.com/atomjoy/laravel/blob/main/doc/events.md
 ### Wysyłanie zdjęć (upload avatar)
 - https://github.com/atomjoy/laravel/blob/main/doc/storage-upload.md
+### Singletonowe kontrolery zasobów
+- https://github.com/atomjoy/laravel/blob/main/doc/route-resource-singleton.md
