@@ -71,7 +71,7 @@ class UploadAvatarController extends Controller
 			}
 		} catch (Exception $e) {
 			report($e);
-			throw new JsonException(__('apilogin.show.avatar.error'), 422);
+			throw new Exception(__('apilogin.show.avatar.error'), 422);
 		}
 	}
 }
