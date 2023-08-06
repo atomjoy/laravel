@@ -48,6 +48,32 @@ class UploadAvatarController extends Controller
 			], 422);
 		}
 	}
+
+  	// Show image in browser
+	public function show(int $id)
+	{
+		try {
+			$id = $id ?? Auth::id() ?? 'error';
+
+			$filename = 'avatars/' . $id . '.webp';
+
+			$exists = Storage::disk('public')->exists($filename);
+
+			if ($exists) {
+				$mime = Storage::disk('public')->mimeType($filename);
+				$content = Storage::disk('public')->get($filename);
+				$response = Response::make($content, 200);
+				$response->header("Content-Type", $mime);
+				return $response;
+			} else {
+				$dummy = fake()->image(null, 64, 64, 'animals', true, true, 'dogs', true, 'png');
+				return response(file_get_contents($dummy))->header('Content-Type', 'image/png');
+			}
+		} catch (Exception $e) {
+			report($e);
+			throw new JsonException(__('apilogin.show.avatar.error'), 422);
+		}
+	}
 }
 ```
 
