@@ -53,14 +53,13 @@ class UploadAvatarController extends Controller
   	// Show image in browser
 	public function show()
 	{
+		// Only logged users (private image)
 		return $this->showAvatar();
 	}
 
 	public function showAvatar($default_avatar = 'js/components/input/profil/avatar.png')
 	{
 		try {
-			Auth::login(User::first());
-
 			$id = Auth::id() ?? 'error';
 
 			$filename = '/avatars/' . $id . '.webp';
