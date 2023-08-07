@@ -102,6 +102,10 @@ class UpdateAddressRequest extends FormRequest
 			'city' => 'sometimes|max:50',
 			'street' => 'sometimes|max:50',
 			'postal_code' => 'sometimes|max:50',
+
+			// Update with unique fields, example user profiles table
+			// 'unique:profiles,username,' . Auth::user()->profile?->id ?? null,
+			// Rule::unique('profiles')->ignore(Auth::user()->profile?->id ?? null),
 		];
 	}
 
