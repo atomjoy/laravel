@@ -168,9 +168,13 @@ class LogChannel
 
         $data = method_exists($notification, 'toLog')
             ? $notification->toLog($notifiable)
-            : $notification->toArray($notifiable);        if (empty($data)) {
+            : $notification->toArray($notifiable);
+
+        if (empty($data)) {
             return;
-        }        app('log')->info(json_encode([
+        }
+
+       app('log')->info(json_encode([
             'id'   => $id,
             'data' => $data,
         ]));        return true;
