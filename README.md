@@ -21,5 +21,5 @@ Laravel przykłady.
 - https://github.com/atomjoy/laravel/blob/main/doc/storage-upload.md
 ### Singletonowe kontrolery zasobów
 - https://github.com/atomjoy/laravel/blob/main/doc/route-resource-singleton.md
-### Powiadomienia w bazie danych
+### Powiadomienia w bazie danych, niestandardowy kanał powiadomień
 - https://github.com/atomjoy/laravel/blob/main/doc/notifications.md
