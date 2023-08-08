@@ -1,5 +1,13 @@
 # Powiadomienia
 
+```sh
+php artisan notifications:table
+
+php artisan migrate
+
+php artisan make:notification NotifyMessage
+```
+
 ## Klasa User
 
 ```php
