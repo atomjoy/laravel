@@ -1,10 +1,13 @@
 # Powiadomienia
 
+Powiadomienia w bazie danych, niestandardowy kanał powiadomień
+
 ```sh
+# crete migrations
 php artisan notifications:table
-
+# create tables
 php artisan migrate
-
+# make class
 php artisan make:notification NotifyMessage
 ```
 
