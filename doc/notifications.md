@@ -149,6 +149,7 @@ Route::get('/', function () {
 ## Niestandardowa powiadomienia
 
 ### Utwórz klasę nowego kanału
+
 ```php
 <?php
 
@@ -160,24 +161,26 @@ class LogChannel
 {
     public function send ($notifiable, Notification $notification) {
 
-        if (method_exists($notifiable, 'routeNotificationForLog')) {
-            $id = $notifiable->routeNotificationForLog($notifiable);
-        } else {
-            $id = $notifiable->getKey();
-        }
+      if (method_exists($notifiable, 'routeNotificationForLog')) {
+        $id = $notifiable->routeNotificationForLog($notifiable);
+      } else {
+        $id = $notifiable->getKey();
+      }
 
-        $data = method_exists($notification, 'toLog')
-            ? $notification->toLog($notifiable)
-            : $notification->toArray($notifiable);
+      $data = method_exists($notification, 'toLog')
+        ? $notification->toLog($notifiable)
+        : $notification->toArray($notifiable);
 
-        if (empty($data)) {
-            return;
-        }
+      if (empty($data)) {
+        return;
+      }
 
-       app('log')->info(json_encode([
-            'id'   => $id,
-            'data' => $data,
-        ]));        return true;
+      app('log')->info(json_encode([
+        'id'   => $id,
+        'data' => $data,
+      ]));
+
+      return true;
     }
 }
 ```
