@@ -146,8 +146,9 @@ Route::get('/', function () {
 });
 ```
 
-## Custom notification channel
+## Niestandardowa powiadomienia
 
+### Utwórz klasę nowego kanału
 ```php
 <?php
 
@@ -177,7 +178,7 @@ class LogChannel
 }
 ```
 
-### Register custom log channel
+### Zarejestruj klasę
 
 ```php
 <?php
@@ -199,7 +200,7 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-### Log notification class
+### Utwórz klasę powiadomień
 
 ```php
 <?php
@@ -243,7 +244,7 @@ class LogNotification extends Notification
 }
 ```
 
-### Send custom notification
+### Wyślij niestandardowe powiadomienie
 
 ```php
 Route::get('/', function () {
