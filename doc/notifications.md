@@ -139,10 +139,16 @@ class NotifyMessage extends Notification
 ### Wyślij powiadomienie
 
 ```php
+use Illuminate\Support\Facades\Notification;
+
 Route::get('/', function () {
- $user = User::first();
- $user->notify(new NotifyMessage('Hello Max !!!'));
- $user->notifyNow(new NotifyMessage('Hello Max !!!'));
+  $user = User::first();
+
+  $user->notify(new NotifyMessage('Hello Max !!!'));
+  $user->notifyNow(new NotifyMessage('Hello Max !!!'));
+
+  Notification::send($user, new NotifyMessage('Hello Max !!!'));
+  Notification::sendNow($user, new NotifyMessage('Hello Max !!!'));
 });
 ```
 
@@ -254,6 +260,8 @@ class LogNotification extends Notification
 ### Wyślij niestandardowe powiadomienie
 
 ```php
+use Illuminate\Support\Facades\Notification;
+
 Route::get('/', function () {
   $user = User::first();
 
