@@ -288,6 +288,50 @@ Route::get('/send/log', function () {
 });
 ```
 
+## Model klasy
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\DatabaseNotification;
+
+class Notification extends DatabaseNotification
+{
+  public function users()
+  {
+    return $this->belongsTo(User::class, 'notifiable_id');
+  }
+}
+```
+
+### User model trait
+
+```php
+<?php
+
+namespace App\Notifications\Contracts;
+
+use App\Models\Notification;
+use Illuminate\Notifications\Notifiable as BaseNotifiable;
+
+trait Notifiable
+{
+  use BaseNotifiable;
+
+  /**
+  * Get the entity's notifications.
+  */
+  public function notifications()
+  {
+    return $this->morphMany(Notification::class, 'notifiable')
+      ->orderBy('created_at', 'desc');
+  }
+}
+```
+
 ## Links
 
 - <https://laravel.com/docs/10.x/notifications#mailables-and-on-demand-notifications>
