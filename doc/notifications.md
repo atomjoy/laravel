@@ -89,7 +89,9 @@ class NotifyMessage extends Notification
  {
     // Custom log channel or standard database
     return $notifiable->prefers_log ? ['log'] : ['database'];
-    // return ['mail'];
+
+    // Mail log channel
+    // return ['mail', 'database'];
  }
 
  /**
@@ -102,7 +104,7 @@ class NotifyMessage extends Notification
     ->action('Notification Action', url('/'))
     ->line('Thank you for using our application!')
     ->from('barrett@example.com', 'Barrett Blair');
-    // Get recipient email from routeNotificationForMail or manualy
+    // Get recipient email from routeNotificationForMail or manually
     // ->to($notifiable->email);
 
   return (new MailMessage)->view(
@@ -118,7 +120,7 @@ class NotifyMessage extends Notification
  public function toDatabase(object $notifiable): array
  {
   return [
-    'user_id' => $notifiable->id,
+    'user_id' => $notifiable->id, // Get id from User model instance
     'message' => $this->message,
   ];
  }
@@ -155,7 +157,9 @@ Route::get('/', function () {
 });
 ```
 
-## Niestandardowa powiadomienia
+## Niestandardowy kanał powiadomień
+
+Niestandardowy kanał powiadomień taki jak (mail, database).
 
 ### Utwórz klasę nowego kanału
 
@@ -168,22 +172,28 @@ use Illuminate\Notifications\Notification;
 
 class LogChannel
 {
+  /**
+   * Send notification message
+   */
     public function send ($notifiable, Notification $notification) {
-
+      // Get identifier
       if (method_exists($notifiable, 'routeNotificationForLog')) {
         $id = $notifiable->routeNotificationForLog($notifiable);
       } else {
         $id = $notifiable->getKey();
       }
 
+      // Get message
       $data = method_exists($notification, 'toLog')
         ? $notification->toLog($notifiable)
         : $notification->toArray($notifiable);
 
+      // Don't send message if empty
       if (empty($data)) {
         return;
       }
 
+      // Save in logs
       app('log')->info(json_encode([
         'id'   => $id,
         'data' => $data,
@@ -239,22 +249,22 @@ class LogNotification extends Notification
       return [ 'log' ];
 
       // If not registered in service provider
-      // return [ \App\Channels\LogChannel::class ];
+      return [ \App\Channels\LogChannel::class ];
     }
 
     public function toLog ($notifiable) {
       return [
-        'from'          => 'to-log',
         'notifiable-id' => $notifiable->id,
         'message' => $this->message,
+        'from' => 'to-log',
       ];
     }
 
     public function toArray ($notifiable) {
       return [
-        'from'          => 'to-array',
         'notifiable-id' => $notifiable->id,
         'message' => $this->message,
+        'from' => 'to-array',
       ];
     }
 }
@@ -265,14 +275,16 @@ class LogNotification extends Notification
 ```php
 use Illuminate\Support\Facades\Notification;
 
-Route::get('/', function () {
+Route::get('/send/log', function () {
   $user = User::first();
 
   $user->notify(new LogNotification());
   $user->notifyNow(new LogNotification());
 
-  Notification::send($user, new LogNotification());
-  Notification::sendNow($user, new LogNotification());
+  $users = User::all();
+
+  Notification::send($users, new LogNotification());
+  Notification::sendNow($users, new LogNotification());
 });
 ```
 
