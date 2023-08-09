@@ -26,7 +26,7 @@ class DbNotify extends Notification
 	{
 		return [
 			'message' => $this->msg->getContent(),
-			'message_links' => $this->msg->getLinks(),
+			'links' => $this->msg->getLinks(),
 		];
 	}
 }

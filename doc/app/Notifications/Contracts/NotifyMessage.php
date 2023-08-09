@@ -5,13 +5,10 @@ namespace App\Notifications\Contracts;
 class NotifyMessage
 {
 	protected array $links = [];
+	protected array|string $content = '';
 
-	/**
-	 * Notification message format.
-	 */
-	function __construct(
-		protected string|array $content,
-	) {
+	function __construct()
+	{
 	}
 
 	function setContent($msg)
