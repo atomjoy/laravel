@@ -24,10 +24,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\HasDatabaseNotifications;
 
 class User extends Authenticatable
 {
- use HasApiTokens, HasFactory, Notifiable;
+ use HasApiTokens, HasFactory, Notifiable, HasDatabaseNotifications;
 
  /**
   * Prefer log notification.
@@ -290,6 +291,8 @@ Route::get('/send/log', function () {
 
 ## Model klasy
 
+Użyj tego modelu Illuminate\Notifications\DatabaseNotification;
+
 ```php
 <?php
 
@@ -308,6 +311,8 @@ class Notification extends DatabaseNotification
 ```
 
 ### User model trait
+
+Lub zaimportuj w User trait Illuminate\Notifications\HasDatabaseNotifications;
 
 ```php
 <?php
