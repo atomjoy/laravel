@@ -303,7 +303,8 @@ use Illuminate\Notifications\DatabaseNotification;
 
 class Notification extends DatabaseNotification
 {
-  public function users()
+  // Or use ->notifiable() from DatabaseNotification
+  public function user()
   {
     return $this->belongsTo(User::class, 'notifiable_id');
   }
@@ -331,15 +332,27 @@ trait Notifiable
   */
   public function notifications()
   {
-    return $this->morphMany(Notification::class, 'notifiable')
-      ->orderBy('created_at', 'desc');
+    return $this->morphMany(Notification::class, 'notifiable')->orderBy('created_at', 'desc'); // Or ->latest()
   }
 }
+```
+
+## Stronicowanie notyfikacji
+
+```php
+// With offset and limit (or use resource class)
+User::first()->notifications()->offset(0)->limit(15)->get()->each(function ($n) {
+		$n->formatted_created_at = $n->created_at->format('Y-m-d H:i:s');
+	});
+
+// With ->skip(0)->take(15)->get();
+// With ->paginate(15);
 ```
 
 ## Links
 
 - <https://laravel.com/docs/10.x/notifications#mailables-and-on-demand-notifications>
+- <https://laravel.com/docs/10.x/eloquent-relationships#one-to-many-polymorphic-relations>
 - <https://medium.com/@sirajul.anik/laravel-notifications-part-2-creating-a-custom-notification-channel-6b0eb0d81294>
 - <https://www.honeybadger.io/blog/php-laravel-notifications/>
 - <https://www.scratchcode.io/laravel-notification-tutorial-with-example/>
