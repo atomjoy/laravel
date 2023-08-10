@@ -303,11 +303,11 @@ use Illuminate\Notifications\DatabaseNotification;
 
 class Notification extends DatabaseNotification
 {
-  // Or use ->notifiable() from DatabaseNotification
-  public function user()
-  {
-    return $this->belongsTo(User::class, 'notifiable_id');
-  }
+	// Or use ->notifiable() from DatabaseNotification
+	public function user()
+	{
+		return $this->belongsTo(User::class, 'notifiable_id');
+	}
 }
 ```
 
@@ -322,18 +322,20 @@ namespace App\Notifications\Contracts;
 
 use App\Models\Notification;
 use Illuminate\Notifications\Notifiable as BaseNotifiable;
+use Illuminate\Notifications\DatabaseNotification;
 
 trait Notifiable
 {
-  use BaseNotifiable;
-
-  /**
-  * Get the entity's notifications.
-  */
-  public function notifications()
-  {
-    return $this->morphMany(Notification::class, 'notifiable')->orderBy('created_at', 'desc'); // Or ->latest()
-  }
+	use BaseNotifiable;
+	
+	/**
+	* Get the entity's notifications.
+	*/
+	public function notifications()
+	{
+		// Or use use DatabaseNotification::class;
+		return $this->morphMany(Notification::class, 'notifiable')->orderBy('created_at', 'desc'); // Or ->latest()
+	}
 }
 ```
 
@@ -342,8 +344,8 @@ trait Notifiable
 ```php
 // With offset and limit (or use resource class)
 User::first()->notifications()->offset(0)->limit(15)->get()->each(function ($n) {
-		$n->formatted_created_at = $n->created_at->format('Y-m-d H:i:s');
-	});
+	$n->formatted_created_at = $n->created_at->format('Y-m-d H:i:s');
+});
 
 // With ->skip(0)->take(15)->get();
 // With ->paginate(15);
